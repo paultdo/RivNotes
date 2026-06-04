@@ -1,7 +1,20 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
+from database import Base, engine
+import models
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Building DB tables...")
+    Base.metadata.create_all(bind=engine)
+    print("DB tables synchronized!")
+
+    yield
+
+    print("Shutting down.")
 
 # Initialize the application
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 
 # Define a basic route
