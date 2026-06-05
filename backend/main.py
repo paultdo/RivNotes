@@ -13,6 +13,7 @@ async def lifespan(app: FastAPI):
 
     print("Shutting down.")
 
+# uv run uvicorn main:app --reload --env-file .env
 # Initialize the application
 app = FastAPI(lifespan=lifespan)
 
